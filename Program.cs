@@ -1,3 +1,4 @@
+using API_Tutorial.Installers;
 using API_Tutorial.Options;
 using Microsoft.OpenApi.Models;
 using System.Configuration;
@@ -6,14 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddSwaggerGen(x =>
-{
-    x.SwaggerDoc("v1",new OpenApiInfo { Title = "API Tutorial", Version = "v1" });
-});
+builder.Services.InstallServicesInAssembly(builder.Configuration);
 
 var app = builder.Build();
 
@@ -23,6 +19,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 
 var swaggerOptions = new SwaggerOptions();
