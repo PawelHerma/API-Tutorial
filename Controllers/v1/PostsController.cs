@@ -1,32 +1,30 @@
 ﻿using API_Tutorial.Contracts.v1;
 using API_Tutorial.Contracts.v1.Requests;
 using API_Tutorial.Domain;
+using API_Tutorial.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_Tutorial.Controllers.v1
 {
     public class PostsController : Controller
     {
-        private List<Post> _posts;
-        public PostsController()
+        private readonly IPostService _postService;
+        public PostsController(IPostService postService)
         {
-            _posts = new List<Post>();
-            for (var i = 0; i < 5; i++)
-            {
-                _posts.Add(new Post { Id = Guid.NewGuid() });
-            }
+            _postService = postService;
         }
 
         [HttpGet(ApiRoutes.Posts.GetAll)]
         public IActionResult GetAll()
         {
-            return Ok(_posts);
+            return Ok(_postService.GetPosts());
         }
 
         [HttpGet(ApiRoutes.Posts.Get)]
         public IActionResult Get([FromRoute] Guid postId)
         {
-            return Ok(new Post { Id = postId });
+            var post = _postService.GetPostById(postId);
+            return post == null ? NotFound() : Ok(post);
         }
 
         [HttpPost(ApiRoutes.Posts.Create)]
@@ -37,7 +35,7 @@ namespace API_Tutorial.Controllers.v1
             if (postRequest.Id == Guid.Empty)
                 return BadRequest();
 
-            _posts.Add(post);
+            _postService.GetPosts().Add(post);
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
 

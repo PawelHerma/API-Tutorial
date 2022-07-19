@@ -1,4 +1,5 @@
 ﻿using API_Tutorial.Data;
+using API_Tutorial.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_Tutorial.Installers
@@ -10,6 +11,7 @@ namespace API_Tutorial.Installers
             services.AddControllers();
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton<IPostService, PostService>();
         }
     }
 }
