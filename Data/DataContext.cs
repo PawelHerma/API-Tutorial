@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using API_Tutorial.Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_Tutorial.Data
@@ -10,5 +11,6 @@ namespace API_Tutorial.Data
         {
 
         }
+        public DbSet<Post> Post { get; set; }
     }
 }
