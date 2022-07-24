@@ -6,6 +6,6 @@ namespace API_Tutorial.Services
     {
         public List<Post> GetPosts();
         public Post GetPostById(Guid postId);
-
+        public bool UpdatePost(Post updatedPost);
     }
 }
